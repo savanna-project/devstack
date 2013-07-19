@@ -4,6 +4,7 @@
 
 # ``stack.sh`` calls the entry points in this order:
 #
+# install_req
 # install_svanna
 # configure_savanna
 # start_savanna
