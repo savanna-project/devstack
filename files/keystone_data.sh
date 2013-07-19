@@ -122,6 +122,30 @@ if [[ "$ENABLED_SERVICES" =~ "g-api" ]]; then
     fi
 fi
 
+# SAVANNA
+if [[ "$ENABLED_SERVICES" =~ "savanna" ]]; then
+    SAVANNA_USER=$(get_id keystone user-create \
+        --name=savanna \
+        --pass="$SERVICE_PASSWORD" \
+        --tenant_id $SERVICE_TENANT \
+        --email=savanna@example.com)
+    keystone user-role-add \
+        --tenant_id $SERVICE_TENANT \
+        --user_id $SAVANNA_USER \
+        --role_id $ADMIN_ROLE
+
+    SAVANNA_SERVICE=$(get_id keystone service-create \
+        --name=savanna \
+        --type=mapreduce \
+        --description="MapReduce Service")
+    keystone endpoint-create \
+        --region RegionOne \
+        --service_id $SAVANNA_SERVICE \
+        --publicurl "http://$SERVICE_HOST:8080/v0.2/%(tenant_id)s" \
+        --adminurl "http://$SERVICE_HOST:8080/v0.2/%(tenant_id)s" \
+        --internalurl "http://$SERVICE_HOST:80800/v0.2/%(tenant_id)s"
+fi
+
 # Swift
 
 if [[ "$ENABLED_SERVICES" =~ "swift" || "$ENABLED_SERVICES" =~ "s-proxy" ]]; then

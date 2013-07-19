@@ -267,6 +267,8 @@ source $TOP_DIR/lib/heat
 source $TOP_DIR/lib/quantum
 source $TOP_DIR/lib/baremetal
 source $TOP_DIR/lib/ldap
+source $TOP_DIR/lib/savanna
+source $TOP_DIR/lib/savanna-dashboard
 
 # Set the destination directories for OpenStack projects
 OPENSTACKCLIENT_DIR=$DEST/python-openstackclient
@@ -644,6 +646,14 @@ if is_service_enabled heat; then
     configure_heatclient
 fi
 
+if is_service_enabled savanna; then
+    install_req 
+    install_savanna
+    configure_savanna
+    install_req_dashboard
+    install_dashboard
+fi
+
 if is_service_enabled tls-proxy; then
     configure_CA
     init_CA
@@ -790,6 +800,11 @@ if is_service_enabled horizon; then
     start_horizon
 fi
 
+if is_service_enabled savanna; then
+    stop_horizon
+    configure_dashboard
+    start_horizon
+fi
 
 # Glance
 # ------
@@ -1034,6 +1049,10 @@ if is_service_enabled heat; then
     start_heat
 fi
 
+if is_service_enabled savanna; then
+    echo "Starting Savanna"
+    start_savanna
+fi
 
 # Create account rc files
 # =======================

@@ -32,7 +32,7 @@ fi
 #  enable_service quantum
 #  # Optional, to enable tempest configuration as part of devstack
 #  enable_service tempest
-ENABLED_SERVICES=g-api,g-reg,key,n-api,n-crt,n-obj,n-cpu,n-net,n-cond,cinder,c-sch,c-api,c-vol,n-sch,n-novnc,n-xvnc,n-cauth,horizon,rabbit,tempest,mysql
+ENABLED_SERVICES=g-api,g-reg,key,n-api,n-crt,n-obj,n-cpu,n-net,n-cond,cinder,c-sch,c-api,c-vol,n-sch,n-novnc,n-xvnc,n-cauth,horizon,savanna,rabbit,tempest,mysql
 
 # Set the default Nova APIs to enable
 NOVA_ENABLED_APIS=ec2,osapi_compute,metadata
@@ -225,3 +225,9 @@ USE_SCREEN=${SCREEN_DEV:-$USE_SCREEN}
 # Local variables:
 # mode: shell-script
 # End:
+
+# savanna confs
+SAVANNA_REPO=${GIT_BASE}/stackforge/savanna.git
+SAVANNA_BRANCH=master
+SAVANNA_DASHBOARD_REPO=${GIT_BASE}/stackforge/savanna-dashboard.git
+SAVANNA_DASHBOARD_BRANCH=master

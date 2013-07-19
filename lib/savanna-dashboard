@@ -1,0 +1,51 @@
+# lib/savanna-dashboard
+# Functions to control the configuration and operation of the EHO service
+# <do not include this template file in ``stack.sh``!>
+
+# ``stack.sh`` calls the entry points in this order:
+# 
+# install_req_dashboard
+# install_dashboard
+# configure_dashboard
+
+# Save trace setting
+XTRACE=$(set +o | grep xtrace)
+set +o xtrace
+
+source $TOP_DIR/openrc
+
+# Defaults
+# --------
+
+# <define global variables here that belong to this project>
+
+# Set up default directories
+SAVANNA_DASHBOARD_DIR=$DEST/savanna-dashboard
+
+if [[ -d $SAVANNA_DASHBOARD_DIR/bin ]]; then
+    SAVANNA_DASHBOARD_BIN_DIR=$SAVANNA_DASHBOARD_DIR/bin
+else
+    SAVANNA_DASHBOARD_BIN_DIR=$(get_python_exec_prefix)
+fi
+
+function install_req_dashboard() {
+    sudo apt-get install -y git python-dev gcc python-setuptools python-virtualenv node-less libssl-dev
+#    sudo apt-get install nodejs-legacy
+}
+
+function install_dashboard() {
+    git_clone $SAVANNA_DASHBOARD_REPO $SAVANNA_DASHBOARD_DIR $SAVANNA_DASHBOARD_BRANCH $SAVANNA_DASHBOARD_TAG
+    sudo python $DEST/savanna-dashboard/setup.py install
+}
+
+function configure_dashboard() {
+    HORIZON_DIR=$DEST/horizon
+    echo -e "SAVANNA_URL = \"http://127.0.0.1:8386/v1.0\"" >> $HORIZON_DIR/openstack_dashboard/local/local_settings.py
+    sed -i "s/('project', 'admin', 'settings',)/('project', 'admin', 'settings', 'savanna')/g" $HORIZON_DIR/openstack_dashboard/settings.py
+    sed -i "s/('project', 'admin', 'settings',)/('project', 'admin', 'settings', 'savanna')/g" $HORIZON_DIR/openstack_dashboard/local/local_settings.py
+    sed -i "s/'openstack_dashboard'/'savannadashboard',\n    'openstack_dashboard'/g"  $HORIZON_DIR/openstack_dashboard/settings.py
+}
+
+# Restore xtrace
+$XTRACE
+
