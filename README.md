@@ -153,3 +153,16 @@ You can then run many compute nodes, each of which should have a `stackrc` which
     MYSQL_HOST=$SERVICE_HOST
     RABBIT_HOST=$SERVICE_HOST
     Q_HOST=$SERVICE_HOST
+
+#Savanna
+
+Savanna is enabled by default. Before installation you can add localrc. 
+For Ubuntu after installation may be some problems with launch instance. You should stop apparmor service:
+
+    /etc/init.d/apparmor stop
+    /etc/init.d/apparmor teardown
+    update-rc.d -f apparmor remove
+    
+If you use VM with KVM edit /etc/hosts file to make the VM’s hostname resolvable from itself. For example:
+
+    172.18.0.1 instance-name
