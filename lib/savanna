@@ -32,6 +32,10 @@ fi
 function install_req() {
     if is_ubuntu; then
         install_package python-dev python-virtualenv
+    elif is_fedora; then
+        install_package python-devel python-virtualenv
+    else
+        exit_distro_not_supported "This OS is not support for Savanna"
     fi
 }
 
