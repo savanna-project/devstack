@@ -29,8 +29,9 @@ else
 fi
 
 function install_req_dashboard() {
-    sudo apt-get install -y git python-dev gcc python-setuptools python-virtualenv node-less libssl-dev
-#    sudo apt-get install nodejs-legacy
+    if is_ubuntu; then
+        install_package python-dev gcc python-setuptools python-virtualenv node-less libssl-dev
+    fi
 }
 
 function install_dashboard() {
