@@ -31,6 +31,8 @@ fi
 function install_req_dashboard() {
     if is_ubuntu; then
         install_package python-dev gcc python-setuptools python-virtualenv node-less libssl-dev
+    elif is_fedora; then
+        install_package gcc python-setuptools python-virtualenv python-devel openssl-devel nodejs
     fi
 }
 
