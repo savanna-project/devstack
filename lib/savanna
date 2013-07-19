@@ -30,8 +30,9 @@ else
 fi
 
 function install_req() {
-    sudo apt-get install -y python-dev python-virtualenv
-    sudo pip install tox
+    if is_ubuntu; then
+        install_package python-dev python-virtualenv
+    fi
 }
 
 function install_savanna() {
