@@ -157,6 +157,7 @@ You can then run many compute nodes, each of which should have a `stackrc` which
 #Savanna
 
 Savanna is enabled by default. Before installation you can add localrc. 
+
 For Ubuntu after installation may be some problems with launch instance. You should stop apparmor service:
 
     /etc/init.d/apparmor stop
@@ -166,3 +167,24 @@ For Ubuntu after installation may be some problems with launch instance. You sho
 If you use VM with KVM edit /etc/hosts file to make the VM’s hostname resolvable from itself. For example:
 
     172.18.0.1 instance-name
+
+
+For Fedora may be some problems with Horizon and Apache. The first, add section to /etc/httpd/conf/httpd.conf (for example):
+    
+    <Directory "/opt/stack/horizon">
+    AllowOverride None
+    Options None
+    Require all granted
+    </Directory>
+    
+Next:
+
+    setenforce 0
+    vi /etc/sysconfig/selinux
+    (...change to permissive...)
+    yum -y install nodejs
+    systemctl restart httpd.service
+    
+If you see error 500, try to reinstall savanna-dashboard:
+    
+    sudo python $savanna-dashboard-folder/setyp.py install
