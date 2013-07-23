@@ -161,9 +161,9 @@ Edit /etc/hosts file to make the VM’s hostname resolvable from itself. For exa
 
     172.18.0.1 instance-name
 
-If you see error 500, try to reinstall savanna-dashboard:
+If you see error 500, go to savanna-dashboard directory (/opt/stack/savanna-dashboard by default) and try to reinstall savanna-dashboard:
     
-    sudo python $savanna-dashboard-folder/setyp.py install
+    sudo python setup.py install
 
 For Ubuntu after installation may be some problems with launch instance. You should stop apparmor service:
 
@@ -178,17 +178,20 @@ For Fedora may be some problems with Horizon and Apache. The first, add section 
     Options None
     Require all granted
     </Directory>
-    
-Next:
+
+Also, problems may be with security system:
 
     iptables -I INPUT 3 -p tcp -j ACCEPT
     setenforce 0
     vi /etc/sysconfig/selinux
     (...change to permissive...)
+
+Devstack doesn't install nodejs by default, because it is not yet included in Fedora package repositories:
+
     yum -y install nodejs
     systemctl restart httpd.service
 
-Enable KVM:
+Enable KVM (advised to do so, if it is possible):
 
     sudo modprobe kvm_intel
     (...or...)
