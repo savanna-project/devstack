@@ -199,5 +199,5 @@ If you see error 500, try to reinstall savanna-dashboard:
 Enable KVM:
 
     sudo modprobe kvm_intel
-or
+    (...or...)
     sudo modprobe kvm_amd
