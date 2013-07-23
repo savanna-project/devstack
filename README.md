@@ -157,17 +157,15 @@ You can then run many compute nodes, each of which should have a `stackrc` which
 #Savanna
 
 Savanna is enabled by default. Before installation you can add localrc. 
+Edit /etc/hosts file to make the VM’s hostname resolvable from itself. For example:
+
+    172.18.0.1 instance-name
 
 For Ubuntu after installation may be some problems with launch instance. You should stop apparmor service:
 
     /etc/init.d/apparmor stop
     /etc/init.d/apparmor teardown
     update-rc.d -f apparmor remove
-    
-If you use VM with KVM edit /etc/hosts file to make the VM’s hostname resolvable from itself. For example:
-
-    172.18.0.1 instance-name
-
 
 For Fedora may be some problems with Horizon and Apache. The first, add section to /etc/httpd/conf/httpd.conf (for example):
     
@@ -179,16 +177,13 @@ For Fedora may be some problems with Horizon and Apache. The first, add section 
     
 Next:
 
+    iptables -I INPUT 3 -p tcp -j ACCEPT
     setenforce 0
     vi /etc/sysconfig/selinux
     (...change to permissive...)
     yum -y install nodejs
     systemctl restart httpd.service
-    
-If you see error 500, try to reinstall savanna-dashboard:
-    
-    sudo python $savanna-dashboard-folder/setyp.py install
-    
+        
 Also, you may have problems with DHCP. You should update dnsmasq. 
     
     yum update --enablerepo=updates-testing dnsmasq-VERSION.fcXX
@@ -197,6 +192,12 @@ For fedora 18:
 
     yum update --enablerepo=updates-testing dnsmasq-2.65-7.fc18
     
+If you see error 500, try to reinstall savanna-dashboard:
+    
+    sudo python $savanna-dashboard-folder/setyp.py install
+
 Enable KVM:
 
     sudo modprobe kvm_intel
+or
+    sudo modprobe kvm_amd
