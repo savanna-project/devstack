@@ -196,3 +196,7 @@ Also, you may have problems with DHCP. You should update dnsmasq.
 For fedora 18:
 
     yum update --enablerepo=updates-testing dnsmasq-2.65-7.fc18
+    
+Enable KVM:
+
+    sudo modprobe kvm_intel
