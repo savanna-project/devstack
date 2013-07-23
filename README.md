@@ -188,3 +188,11 @@ Next:
 If you see error 500, try to reinstall savanna-dashboard:
     
     sudo python $savanna-dashboard-folder/setyp.py install
+    
+Also, you may have problems with DHCP. You should update dnsmasq. 
+    
+    yum update --enablerepo=updates-testing dnsmasq-VERSION.fcXX
+
+For fedora 18:
+
+    yum update --enablerepo=updates-testing dnsmasq-2.65-7.fc18
