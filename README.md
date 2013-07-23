@@ -161,6 +161,10 @@ Edit /etc/hosts file to make the VM’s hostname resolvable from itself. For exa
 
     172.18.0.1 instance-name
 
+If you see error 500, try to reinstall savanna-dashboard:
+    
+    sudo python $savanna-dashboard-folder/setyp.py install
+
 For Ubuntu after installation may be some problems with launch instance. You should stop apparmor service:
 
     /etc/init.d/apparmor stop
@@ -183,21 +187,17 @@ Next:
     (...change to permissive...)
     yum -y install nodejs
     systemctl restart httpd.service
-        
-Also, you may have problems with DHCP. You should update dnsmasq. 
-    
-    yum update --enablerepo=updates-testing dnsmasq-VERSION.fcXX
-
-For fedora 18:
-
-    yum update --enablerepo=updates-testing dnsmasq-2.65-7.fc18
-    
-If you see error 500, try to reinstall savanna-dashboard:
-    
-    sudo python $savanna-dashboard-folder/setyp.py install
 
 Enable KVM:
 
     sudo modprobe kvm_intel
     (...or...)
     sudo modprobe kvm_amd
+
+Also, you may have problems with DHCP. You should update dnsmasq. 
+    
+    yum update --enablerepo=updates-testing dnsmasq-VERSION.fcXX
+
+For example (fedora 18):
+
+    yum update --enablerepo=updates-testing dnsmasq-2.65-7.fc18
